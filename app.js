@@ -55,8 +55,11 @@
   function updateThemeButton() {
     const theme = document.documentElement.dataset.theme;
     const dark = theme ? theme === 'dark' : darkPreference.matches;
-    themeButton.setAttribute('aria-label', dark ? 'Use light appearance' : 'Use dark appearance');
-    $('#theme-label').textContent = dark ? 'Light mode' : 'Dark mode';
+    const label = dark ? 'Use light appearance' : 'Use dark appearance';
+    themeButton.setAttribute('aria-label', label);
+    themeButton.title = label;
+    $('#theme-moon').hidden = dark;
+    $('#theme-sun').hidden = !dark;
   }
   themeButton.addEventListener('click', () => {
     const theme = document.documentElement.dataset.theme;
