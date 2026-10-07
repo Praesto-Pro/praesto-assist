@@ -106,6 +106,8 @@ Verification includes the existing checkout/pricing tests, browser checks at des
 
 ### Interactive Praesto demo
 
-The How it works section includes a scripted, Praesto-branded support walkthrough inspired by Flamingo’s Fae IT Helper and approval safeguards: https://www.flamingo.run/openframe#agents. Visitors can choose frozen email, Wi-Fi, or slow-computer examples; approve or decline a proposed fix; confirm resolution; and inspect a technician handoff with findings and attempted actions. It never accesses a device or submits a ticket. Paid human troubleshooting remains subject to separate scope and cost approval.
+The How it works section includes a scripted, Praesto-branded support workspace inspired by Flamingo's Fae IT Helper and approval safeguards. Direct link: `/#interactive-demo`. Four examples cover Outlook, Wi-Fi, performance, and printing. A typed issue routes to one of those examples; this is not a live AI chat. Follow-up answers branch between a targeted repair and technician review for broader symptoms.
 
-Verified keyboard activation and focus transfer, resolution and escalation paths, decline/review/reset, scenario switching, light/dark appearance, and 320px mobile layout without horizontal overflow. Existing automated tests remain applicable to pricing, checkout gates, and commercial copy.
+Diagnostic and repair steps appear sequentially, with reduced-motion preferences skipping delays. Visitors explicitly approve or decline changes, verify outcomes, and inspect a simulated ticket with their description, follow-up answer, diagnostic and action history. New requests cancel any pending sequence. The demo never accesses a computer or submits a ticket. Paid human troubleshooting remains subject to separate scope and cost approval.
+
+Verified local resolution, failed repair handoff, broader network handoff, printer decline and reconsideration, typed issue routing, switching scenarios during diagnostics, keyboard interaction, mobile layout without horizontal overflow, and light/dark appearance. Existing automated tests cover pricing, checkout gates, and commercial copy.
