@@ -1,0 +1,14 @@
+{
+  "name": "praesto-assist-landing",
+  "version": "0.7.0",
+  "private": true,
+  "type": "module",
+  "description": "Praesto Assist Agent small-business landing page and gated Stripe Checkout integration",
+  "scripts": {
+    "dev": "node dev-server.mjs",
+    "test": "node --test tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
