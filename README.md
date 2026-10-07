@@ -95,3 +95,11 @@ Source of truth: v0.5 device-block commercial rules, **superseded for service sc
 ## v0.7 copy revision
 
 The page now addresses the owner of a small business without an IT employee: an interruption-heavy day of employee technology questions. The service is named **Praesto Assist Agent** in the site content. The six issue cards are everyday employee questions, not technical scope categories. All checkout calculations, consent gates, safety review requirements, paid escalation approvals and other backend controls remain unchanged.
+
+## Taste design revision
+
+The landing page follows the preserve-redesign guidance in [Taste](https://github.com/Leonxlnx/taste-skill/tree/main/skills/taste-skill). Design settings are variance 4, motion 2, and density 4: a restrained service website for small-business owners, implemented with the existing native HTML/CSS/JavaScript stack. The Praesto logo, routes, navigation labels, pricing rules, form field names/order, and consent text are preserved.
+
+Semantic CSS tokens provide system-aware light/dark appearances with an optional saved preference. Panels use a 12px radius and controls use 8px. Keyboard focus is visible on the calculator and setup radios; setup choices use a fieldset/legend; estimate changes use one debounced live status region. Mobile navigation transfers focus to its destination and supports Escape. The hero photograph is AI-generated editorial imagery, not a customer photograph or product screenshot. It is stored locally as a compressed WebP; the interactive support illustration remains explicitly a demonstration.
+
+Verification includes the existing checkout/pricing tests, browser checks at desktop and 320px widths, native required-field validation, calculator and radio keyboard interaction, and rendered-text contrast checks in both appearances. These checks do not constitute a complete WCAG conformance audit. Screen-reader combinations, text-spacing overrides, actual browser zoom, and Lighthouse/Core Web Vitals remain separate verification work. Final legal pages and production enrollment controls remain the existing launch gates.

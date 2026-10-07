@@ -10,6 +10,8 @@
   const countInput = $('#deviceCount');
   const signupCount = $('#signupDevices');
   const shortcuts = Array.from(document.querySelectorAll('[data-devices]'));
+  let announcementTimer;
+  let hasEstimate = false;
   function updateEstimate(devices, source) {
     const count = normalize(devices);
     const blocks = blocksFor(count);
@@ -24,7 +26,18 @@
     $('#calc-start').innerHTML = 'Get started at ' + currency(price) + '/mo <span aria-hidden="true">→</span>';
     $('#form-estimate-price').textContent = currency(price);
     $('#form-estimate-blocks').textContent = blocks + (blocks === 1 ? ' block' : ' blocks') + ' · up to ' + (blocks * 10).toLocaleString('en-US') + ' computers';
-    shortcuts.forEach((button) => { button.classList.toggle('selected', count === Number(button.dataset.devices)); });
+    shortcuts.forEach((button) => {
+      const selected = count === Number(button.dataset.devices);
+      button.classList.toggle('selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+    if (hasEstimate) {
+      clearTimeout(announcementTimer);
+      announcementTimer = setTimeout(() => {
+        $('#estimate-status').textContent = 'Estimated subscription: ' + currency(price) + ' per month before tax, covering up to ' + (blocks * 10) + ' computers.';
+      }, 350);
+    }
+    hasEstimate = true;
   }
   countInput.addEventListener('input', () => { if (countInput.value !== '') updateEstimate(countInput.value, 'calculator'); });
   countInput.addEventListener('change', () => updateEstimate(countInput.value));
@@ -37,6 +50,24 @@
     document.querySelectorAll('.radio-option').forEach((row) => row.classList.toggle('chosen', row.querySelector('input').checked));
   }));
   $('#year').textContent = new Date().getFullYear();
+  const themeButton = $('#theme-toggle');
+  const darkPreference = window.matchMedia('(prefers-color-scheme: dark)');
+  function updateThemeButton() {
+    const theme = document.documentElement.dataset.theme;
+    const dark = theme ? theme === 'dark' : darkPreference.matches;
+    themeButton.setAttribute('aria-label', dark ? 'Use light appearance' : 'Use dark appearance');
+    $('#theme-label').textContent = dark ? 'Light mode' : 'Dark mode';
+  }
+  themeButton.addEventListener('click', () => {
+    const theme = document.documentElement.dataset.theme;
+    const dark = theme ? theme === 'dark' : darkPreference.matches;
+    const nextTheme = dark ? 'light' : 'dark';
+    document.documentElement.dataset.theme = nextTheme;
+    try { localStorage.setItem('praesto-theme', nextTheme); } catch { /* Appearance works when storage is unavailable. */ }
+    updateThemeButton();
+  });
+  darkPreference.addEventListener('change', updateThemeButton);
+  updateThemeButton();
   const menuButton = $('.mobile-menu');
   const menu = $('#mobile-navigation');
   menuButton.addEventListener('click', () => {
@@ -46,17 +77,29 @@
   });
   menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
     menu.setAttribute('hidden', ''); menuButton.setAttribute('aria-expanded', 'false');
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
   }));
+  menu.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      menu.setAttribute('hidden', ''); menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.focus();
+    }
+  });
   const demoResult = $('#demo-result');
   $('#demo-approve').addEventListener('click', () => {
     $('#demo-approval').hidden = true;
     demoResult.hidden = false;
     demoResult.textContent = '✓ Repair approved in this demo. A real agent would verify the result on your device.';
+    demoResult.setAttribute('tabindex', '-1');
+    demoResult.focus({ preventScroll: true });
   });
   $('#demo-decline').addEventListener('click', () => {
     $('#demo-approval').hidden = true;
     demoResult.hidden = false;
     demoResult.textContent = '✓ Declined. No change would be made. You stay in control.';
+    demoResult.setAttribute('tabindex', '-1');
+    demoResult.focus({ preventScroll: true });
   });
   const form = $('#signupForm');
   const alert = $('#formError');
@@ -64,7 +107,7 @@
   function showError(message) {
     alert.textContent = message;
     alert.hidden = false;
-    alert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    alert.scrollIntoView({ behavior: 'auto', block: 'nearest' });
   }
   form.addEventListener('submit', async (event) => {
     event.preventDefault();

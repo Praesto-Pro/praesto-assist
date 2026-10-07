@@ -11,7 +11,7 @@ const routes = {
   '/api/terms':'./api/terms.js',
   '/api/privacy':'./api/privacy.js'
 };
-const contentTypes = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.svg':'image/svg+xml', '.png':'image/png', '.json':'application/json' };
+const contentTypes = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.svg':'image/svg+xml', '.png':'image/png', '.webp':'image/webp', '.json':'application/json' };
 const server = http.createServer(async (req,res) => {
   const origin = `http://${req.headers.host || `localhost:${PORT}`}`;
   const url = new URL(req.url,origin);
