@@ -92,18 +92,85 @@
   const form = $('#signupForm');
   const alert = $('#formError');
   const submit = $('#submitButton');
+  const fieldErrors = new Map();
+  const fieldLabels = {
+    company: 'Business name', contact: 'Your full name', email: 'Work email', tenant: 'Productivity platform', signupDevices: 'Computer count',
+    'consent-authority': 'Business authorization', 'consent-scope': 'Support scope acknowledgment', 'consent-terms': 'Terms and privacy acknowledgment'
+  };
+  function validationMessage(field) {
+    field.setCustomValidity('');
+    if (field.required && field.type !== 'checkbox' && !field.value.trim()) field.setCustomValidity('Please complete this field.');
+    if (field.validity.valid) return '';
+    if (field.type === 'checkbox') return 'Confirm ' + fieldLabels[field.id].toLowerCase() + ' to continue.';
+    if (field.validity.typeMismatch) return 'Enter a valid work email address, such as name@company.com.';
+    if (field.type === 'number') return 'Enter a whole number between 0 and 10,000.';
+    if (field.id === 'tenant') return 'Choose Microsoft 365 or Google Workspace.';
+    return 'Enter ' + fieldLabels[field.id].toLowerCase() + '.';
+  }
+  function clearFieldError(field) {
+    const error = fieldErrors.get(field);
+    if (!error) return;
+    error.remove();
+    field.removeAttribute('aria-invalid');
+    const descriptions = (field.getAttribute('aria-describedby') || '').split(' ').filter(id => id && id !== error.id);
+    if (descriptions.length) field.setAttribute('aria-describedby', descriptions.join(' ')); else field.removeAttribute('aria-describedby');
+    fieldErrors.delete(field);
+  }
+  function markFieldError(field, message) {
+    clearFieldError(field);
+    const error = document.createElement('p');
+    error.id = field.id + '-error';
+    error.className = 'field-error';
+    error.textContent = message;
+    const row = field.closest('.consent-row');
+    if (row) row.after(error); else field.closest('.field').append(error);
+    field.setAttribute('aria-invalid', 'true');
+    const previous = field.getAttribute('aria-describedby');
+    field.setAttribute('aria-describedby', [previous, error.id].filter(Boolean).join(' '));
+    fieldErrors.set(field, error);
+  }
+  function errorSummary(focus = false) {
+    if (!fieldErrors.size) { alert.hidden = true; return; }
+    const title = document.createElement('strong');
+    title.textContent = 'Please check ' + fieldErrors.size + (fieldErrors.size === 1 ? ' field.' : ' fields.');
+    const list = document.createElement('ul');
+    fieldErrors.forEach((error, field) => {
+      const item = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = '#' + field.id;
+      link.textContent = fieldLabels[field.id] + ': ' + error.textContent;
+      link.addEventListener('click', event => { event.preventDefault(); field.focus(); field.scrollIntoView({block:'center',behavior:'auto'}); });
+      item.append(link); list.append(item);
+    });
+    alert.replaceChildren(title, list);
+    alert.hidden = false;
+    if (focus) alert.focus();
+  }
+  form.addEventListener('input', event => {
+    const field = event.target;
+    if (fieldErrors.has(field)) {
+      const message = validationMessage(field);
+      if (!message) { clearFieldError(field); errorSummary(); }
+    }
+  });
+  form.addEventListener('change', event => {
+    const field = event.target;
+    if (fieldErrors.has(field) && !validationMessage(field)) { clearFieldError(field); errorSummary(); }
+  });
   function showError(message) {
     alert.textContent = message;
     alert.hidden = false;
-    alert.scrollIntoView({ behavior: 'auto', block: 'nearest' });
+    alert.focus();
   }
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     alert.hidden = true;
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
+    Array.from(fieldErrors.keys()).forEach(clearFieldError);
+    form.querySelectorAll('[required]').forEach(field => {
+      const message = validationMessage(field);
+      if (message) markFieldError(field, message);
+    });
+    if (fieldErrors.size) { errorSummary(true); return; }
     const devices = Number(signupCount.value);
     if (!Number.isInteger(devices) || devices < 0 || devices > 10000) {
       showError('Please enter a valid computer count between 0 and 10,000.');

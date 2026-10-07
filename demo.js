@@ -112,7 +112,8 @@
       controls.append(button);
     });
   }
-  function focusControls() {
+  function focusControls(preserveExternalFocus = false) {
+    if (preserveExternalFocus && !$('.support-example').contains(document.activeElement)) return;
     const target = controls.querySelector('button') || input;
     transcript.scrollTop = transcript.scrollHeight;
     target.focus({preventScroll:true});
@@ -121,6 +122,7 @@
   async function runSteps(items, title, index) {
     const token = generation;
     controls.replaceChildren();
+    if (controls.contains(document.activeElement) || document.activeElement === document.body) transcript.focus({preventScroll:true});
     setBusy(true);
     status(title, index);
     const panel = element('div', null, 'demo-checklist');
@@ -180,7 +182,7 @@
       status('Technician review recommended', 3);
       actions([['Prepare technician handoff',()=>handoff()],['Try another example',()=>reset()]]);
     } else proposal();
-    focusControls();
+    focusControls(true);
   }
   function proposal() {
     step = 'approval';
@@ -202,7 +204,7 @@
     message(scenarios[selected].verify);
     status('Checking the outcome with you',3);
     actions([['Yes, it’s working',()=>resolved()],['Still having trouble',()=>unresolved()]]);
-    focusControls();
+    focusControls(true);
   }
   function decline() {
     step = 'paused';

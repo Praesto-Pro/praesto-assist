@@ -111,3 +111,11 @@ The How it works section includes a scripted, Praesto-branded support workspace 
 Diagnostic and repair steps appear sequentially, with reduced-motion preferences skipping delays. Visitors explicitly approve or decline changes, verify outcomes, and inspect a simulated ticket with their description, follow-up answer, diagnostic and action history. New requests cancel any pending sequence. The demo never accesses a computer or submits a ticket. Paid human troubleshooting remains subject to separate scope and cost approval.
 
 Verified local resolution, failed repair handoff, broader network handoff, printer decline and reconsideration, typed issue routing, switching scenarios during diagnostics, keyboard interaction, mobile layout without horizontal overflow, and light/dark appearance. Existing automated tests cover pricing, checkout gates, and commercial copy.
+
+### UI UX Pro Max review
+
+Installed the reusable skill in `C:/Users/Praesto Dev/.codex/skills/ui-ux-pro-max` from `nextlevelbuilder/ui-ux-pro-max-skill` (including local scripts, data, references, and license). Applied targeted UX searches for error summaries, compact labels, and unobscured focus; retained the existing plain HTML/CSS/JS stack and brand design.
+
+Review fixes: linked signup error summary with persistent inline errors and `aria-invalid`/`aria-describedby`; summary focus after failed submission; visible demo message label and 16px input text; readable demo metadata; 44px mobile menu target; hover/pressed feedback; asynchronous diagnostics retain focus when visitors move elsewhere.
+
+Verified 375/768/1024/1440px widths, light/dark computed text contrast, keyboard error navigation and clearing, and focus preservation during diagnostics. These checks are not a WCAG certification. Screen reader, zoom/text-spacing overrides, and performance lab testing remain unverified. Terms/privacy endpoints still return placeholders; launch configuration and integration gates remain necessary before accepting paid subscriptions.
