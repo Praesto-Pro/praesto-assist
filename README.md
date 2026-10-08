@@ -119,3 +119,11 @@ Installed the reusable skill in `C:/Users/Praesto Dev/.codex/skills/ui-ux-pro-ma
 Review fixes: linked signup error summary with persistent inline errors and `aria-invalid`/`aria-describedby`; summary focus after failed submission; visible demo message label and 16px input text; readable demo metadata; 44px mobile menu target; hover/pressed feedback; asynchronous diagnostics retain focus when visitors move elsewhere.
 
 Verified 375/768/1024/1440px widths, light/dark computed text contrast, keyboard error navigation and clearing, and focus preservation during diagnostics. These checks are not a WCAG certification. Screen reader, zoom/text-spacing overrides, and performance lab testing remain unverified. Terms/privacy endpoints still return placeholders; launch configuration and integration gates remain necessary before accepting paid subscriptions.
+
+### Taste frontend pass (8 October 2026)
+
+Applied `design-taste-frontend` in preserve mode: DESIGN_VARIANCE 4, MOTION_INTENSITY 2, VISUAL_DENSITY 4. Retained the native HTML/CSS/JS architecture, brand artwork, information architecture, title/description, form fields, and consent/legal copy. Functional demo behavior remains outside this skill's marketing-page scope.
+
+Refinements: self-hosted Manrope variable font (Latin WOFF2, about 24KB; OFL in `assets/fonts/Manrope-OFL.txt`), two-line hero headline with 16-word supporting copy, shared Tabler icon family for marketing features/actions, a capabilities introduction beside a two-column feature list, consistent spacing and stronger muted text contrast. Existing Tabler MIT license covers the added icons. No runtime font requests to third-party services.
+
+Verified widths 320/375/768/1024/1440, two-line hero and visible CTA at each tested size, normal desktop nav height under 80px, light/dark computed text contrast, keyboard demo decline, calculator $297 for 25 computers, signup error focus, FAQ keyboard activation, and all 10 existing tests. PageSpeed's Lighthouse endpoint returned HTTP 429, so Core Web Vitals/performance scores remain unverified.

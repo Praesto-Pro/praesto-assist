@@ -23,7 +23,7 @@
     $('#calc-blocks').textContent = blocks + (blocks === 1 ? ' block' : ' blocks');
     $('#calc-capacity').textContent = (blocks * 10).toLocaleString('en-US') + ' computers';
     $('#calc-description').textContent = 'Coverage for up to ' + (blocks * 10).toLocaleString('en-US') + ' enrolled computers';
-    $('#calc-start').innerHTML = 'Get started at ' + currency(price) + '/mo <span aria-hidden="true">→</span>';
+    $('#calc-start').innerHTML = 'Get started at ' + currency(price) + '/mo <span aria-hidden="true"><svg class="ui-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M5 12l14 0" /> <path d="M13 18l6 -6" /> <path d="M13 6l6 6" /> </svg></span>';
     $('#form-estimate-price').textContent = currency(price);
     $('#form-estimate-blocks').textContent = blocks + (blocks === 1 ? ' block' : ' blocks') + ' · up to ' + (blocks * 10).toLocaleString('en-US') + ' computers';
     shortcuts.forEach((button) => {
@@ -206,7 +206,7 @@
     } catch (err) {
       showError(err instanceof Error ? err.message : 'Checkout is unavailable. No payment has been collected.');
       submit.disabled = false;
-      submit.innerHTML = 'Continue to secure checkout <span aria-hidden="true">↗</span>';
+      submit.innerHTML = 'Continue to secure checkout <span aria-hidden="true"><svg class="ui-icon" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" > <path d="M17 7l-10 10" /> <path d="M8 7l9 0l0 9" /> </svg></span>';
     }
   });
   updateEstimate(10);

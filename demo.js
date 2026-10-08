@@ -43,7 +43,7 @@
       proposal: 'Close the unresponsive app',
       impact: 'Closes the affected app only. Save your work in it first; unsaved changes may be lost. Other apps stay open.',
       repair: ['Employee approved closing the stalled app', 'Unresponsive app closed', 'CPU usage dropped to 18% in this example'],
-      verify: 'The processor load is back to normal in this example. Try switching between your apps—does it feel better?',
+      verify: 'The processor load is back to normal in this example. Try switching between your apps. Does it feel better?',
       tip: 'Reopen the app when you’re ready. If it stalls again, the support record can help with the next investigation.'
     },
     printer: {
@@ -56,7 +56,7 @@
       proposal: 'Switch this printer queue online',
       impact: 'Changes the offline setting for this computer’s printer queue. No queued jobs or documents will be deleted.',
       repair: ['Employee approved switching the queue online', 'Offline setting cleared on this computer', 'Printer queue reports ready'],
-      verify: 'The queue reports ready in this example. Try printing a document—did it come through?',
+      verify: 'The queue reports ready in this example. Try printing a document. Did it come through?',
       tip: 'Choose the same printer when you try again. Praesto will keep the checks with this request.'
     }
   };
@@ -170,7 +170,7 @@
     if (busy) return;
     answer = text; broad = wider; step = 'investigating';
     message(text, true);
-    message('Thanks—that helps. I’ll check the relevant device information first. These example checks won’t change anything.');
+    message('Thanks, that helps. I’ll check the relevant device information first. These example checks won’t change anything.');
     const scenario = scenarios[selected];
     if (!await runSteps(broad ? scenario.broad : scenario.checks, 'Investigating the issue', 1)) return;
     if (broad) {
@@ -209,7 +209,7 @@
   function decline() {
     step = 'paused';
     message('Not right now.',true);
-    message('Of course. No changes have been made. When you’re ready, we can revisit this step—or I can prepare the findings for a technician.');
+    message('Of course. No changes have been made. When you’re ready, we can revisit this step, or I can prepare the findings for a technician.');
     record('Employee declined the change; no fix attempted');
     status('Paused at your request',2);
     actions([['Review the proposed fix',()=>{proposal();focusControls();}],['Prepare technician handoff',()=>handoff()]]);
