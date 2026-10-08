@@ -10,16 +10,27 @@
   const countInput = $('#deviceCount');
   const signupCount = $('#signupDevices');
   const shortcuts = Array.from(document.querySelectorAll('[data-devices]'));
+  let setupPreference = 'self';
   let announcementTimer;
   let hasEstimate = false;
   function updateEstimate(devices, source) {
     const count = normalize(devices);
     const blocks = blocksFor(count);
     const price = 99 * blocks;
+    const onboarding = setupPreference === 'assisted' ? 199 * blocks : 0;
     if (source !== 'calculator') countInput.value = count;
     if (source !== 'signup') signupCount.value = count;
     $('#calc-price').textContent = price.toLocaleString('en-US');
     $('#calc-total').textContent = currency(price);
+    $('#calc-onboarding').textContent = currency(onboarding);
+    $('#calc-onboarding-discount').hidden = setupPreference !== 'assisted';
+    $('#calc-onboarding-normal').textContent = currency(500 * blocks);
+    $('#calc-onboarding-savings').textContent = 'Save ' + currency(301 * blocks);
+    $('#calc-initial').textContent = currency(price + onboarding);
+    $('#form-estimate-onboarding').textContent = currency(onboarding);
+    $('#form-onboarding-note').textContent = setupPreference === 'assisted'
+      ? 'Normally ' + currency(500 * blocks) + '. Save ' + currency(301 * blocks) + '. Billed once, separately with your approval.'
+      : 'Self-onboarding is free.';
     $('#calc-blocks').textContent = blocks + (blocks === 1 ? ' block' : ' blocks');
     $('#calc-capacity').textContent = (blocks * 10).toLocaleString('en-US') + ' computers';
     $('#calc-description').textContent = 'Coverage for up to ' + (blocks * 10).toLocaleString('en-US') + ' enrolled computers';
@@ -34,7 +45,7 @@
     if (hasEstimate) {
       clearTimeout(announcementTimer);
       announcementTimer = setTimeout(() => {
-        $('#estimate-status').textContent = 'Estimated subscription: ' + currency(price) + ' per month before tax, covering up to ' + (blocks * 10) + ' computers.';
+        $('#estimate-status').textContent = 'Estimated subscription: ' + currency(price) + ' per month before tax, covering up to ' + (blocks * 10) + ' computers. One-time onboarding: ' + currency(onboarding) + '. First month plus onboarding: ' + currency(price + onboarding) + ' before tax.';
       }, 350);
     }
     hasEstimate = true;
@@ -46,8 +57,11 @@
   $('#dec-devices').addEventListener('click', () => updateEstimate(normalize(countInput.value) - 1));
   $('#inc-devices').addEventListener('click', () => updateEstimate(normalize(countInput.value) + 1));
   shortcuts.forEach((button) => button.addEventListener('click', () => updateEstimate(Number(button.dataset.devices))));
-  document.querySelectorAll('[name=setup]').forEach((input) => input.addEventListener('change', () => {
+  document.querySelectorAll('[name=setup], [name=calculatorSetup]').forEach((input) => input.addEventListener('change', () => {
+    setupPreference = input.value;
+    document.querySelectorAll('[name=setup], [name=calculatorSetup]').forEach((radio) => { radio.checked = radio.value === setupPreference; });
     document.querySelectorAll('.radio-option').forEach((row) => row.classList.toggle('chosen', row.querySelector('input').checked));
+    updateEstimate(countInput.value);
   }));
   $('#year').textContent = new Date().getFullYear();
   const themeButton = $('#theme-toggle');
