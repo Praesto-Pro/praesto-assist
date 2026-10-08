@@ -127,3 +127,9 @@ Applied `design-taste-frontend` in preserve mode: DESIGN_VARIANCE 4, MOTION_INTE
 Refinements: self-hosted Manrope variable font (Latin WOFF2, about 24KB; OFL in `assets/fonts/Manrope-OFL.txt`), two-line hero headline with 16-word supporting copy, shared Tabler icon family for marketing features/actions, a capabilities introduction beside a two-column feature list, consistent spacing and stronger muted text contrast. Existing Tabler MIT license covers the added icons. No runtime font requests to third-party services.
 
 Verified widths 320/375/768/1024/1440, two-line hero and visible CTA at each tested size, normal desktop nav height under 80px, light/dark computed text contrast, keyboard demo decline, calculator $297 for 25 computers, signup error focus, FAQ keyboard activation, and all 10 existing tests. PageSpeed's Lighthouse endpoint returned HTTP 429, so Core Web Vitals/performance scores remain unverified.
+
+### Responsive assets and first paint
+
+The hero uses 360/540/720/1080/1448px WebP candidates with sizes matching the CSS grid, plus a matching responsive preload. Both wordmarks use lossless 180/360/540px WebP candidates; original branding assets remain available. Intrinsic image dimensions reserve the existing aspect ratios.
+
+`npm run build` regenerates the first-screen CSS in `index.html` from `styles.css`, preserving source order and media overrides. The complete stylesheet loads asynchronously with a no-JavaScript fallback. Edit `styles.css` as the source of truth; the build also runs before local development/tests and during Vercel deployment. No third-party origins need preconnection.
