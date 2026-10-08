@@ -22,7 +22,7 @@ test('roster access is not a price input; 25 computers means $297',()=>{
 });
 test('rejects missing consent, unsupported tenant, bot and invalid email',()=>{
   assert.throws(()=>validateSignup({...signup,scope:false}));
-  assert.throws(()=>validateSignup({...signup,tenant:'other'}));
+  assert.throws(()=>validateSignup({...signup,tenant:'unknown-platform'}));
   assert.throws(()=>validateSignup({...signup,website:'https://spam.example'}));
   assert.throws(()=>validateSignup({...signup,email:'not-email'}));
 });
@@ -81,11 +81,13 @@ test('live checkout derives 3 Stripe units from 25 computers and validates $99 p
   };
   try {
     assert.equal(liveConfigReady(),true);
-    const req=new Request('https://assist.example.com/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json',Origin:'https://assist.example.com'},body:JSON.stringify(signup)});
-    const res=await checkout(req);
-    assert.equal(res.status,200);
-    assert.equal(quantity,'3');
-    assert.equal((await res.json()).url,'https://checkout.stripe.com/c/pay/mock');
+    for (const tenant of ['microsoft365','googleworkspace','other']) {
+      const req=new Request('https://assist.example.com/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json',Origin:'https://assist.example.com'},body:JSON.stringify({...signup,tenant})});
+      const res=await checkout(req);
+      assert.equal(res.status,200);
+      assert.equal(quantity,'3');
+      assert.equal((await res.json()).url,'https://checkout.stripe.com/c/pay/mock');
+    }
   } finally {
     global.fetch=oldFetch;
     for(const key of keys){if(oldEnv[key]===undefined) delete process.env[key];else process.env[key]=oldEnv[key];}

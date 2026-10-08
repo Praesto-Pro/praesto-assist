@@ -24,7 +24,7 @@ No dependency installation required. The front-end can be inspected as a plain H
 - Self-onboarding costs $0 upfront. Human-assisted onboarding costs $199 per started 10-computer block, normally $500 per block, as a one-time service billed separately with approval. The calculator and signup show the fee, savings, and subscription separately. No onboarding amount is added to Stripe automatically.
 - Included service is best-effort OpenFrame/Fae AI assistance for **any reported issue on an enrolled computer**, limited by technical access, AI capability, non-destructive operation, and safety approval. The six feature cards show examples, **not an enforceable catalog**. Potentially dangerous AI-proposed actions require Praesto technician safety review, which **is included and not billable**. If the AI cannot resolve the issue, optional human-led troubleshooting/remediation requires separate scope and spending authorization. Phone and email remain human intake, not the included AI channel. Proactive RMM/monitoring/patching/backup/security operations are not included.
 - In the signup calculator, the selected computer count is the customer's **initial expected capacity**. The **billing entitlement and future block adjustments must use confirmed enrolled computers in Vtiger**. The signup form itself cannot count enrolled devices.
-- One Microsoft 365 or Google Workspace tenant at launch.
+- Productivity platform choices: Microsoft 365, Google Workspace, or Other. Environment compatibility is verified before enrollment.
 - Initial device eligibility and approved OS/runbook matrix must be validated in onboarding.
 - No broad unlimited-support or human-SLA claims.
 

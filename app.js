@@ -118,7 +118,7 @@
     if (field.type === 'checkbox') return 'Confirm ' + fieldLabels[field.id].toLowerCase() + ' to continue.';
     if (field.validity.typeMismatch) return 'Enter a valid work email address, such as name@company.com.';
     if (field.type === 'number') return 'Enter a whole number between 0 and 10,000.';
-    if (field.id === 'tenant') return 'Choose Microsoft 365 or Google Workspace.';
+    if (field.id === 'tenant') return 'Choose Microsoft 365, Google Workspace, or Other.';
     return 'Enter ' + fieldLabels[field.id].toLowerCase() + '.';
   }
   function clearFieldError(field) {
